@@ -1,0 +1,617 @@
+﻿@{
+    Layout = "~/Views/Shared/Menu.cshtml";
+}
+<!-- slimscroll js-->
+<script src="~/assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+<!-- chartjs js-->
+<script src="~/assets/vendor/charts/charts-bundle/Chart.bundle.js"></script>
+<script src="~/assets/vendor/charts/charts-bundle/chartjs.js"></script>
+
+<!-- main js-->
+<script src="~/assets/libs/js/main-js.js"></script>
+<!-- jvactormap js-->
+<script src="~/assets/vendor/jvectormap/jquery-jvectormap-2.0.2.min.js"></script>
+<script src="~/assets/vendor/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<!-- sparkline js-->
+<script src="~/assets/vendor/charts/sparkline/jquery.sparkline.js"></script>
+<script src="~/assets/vendor/charts/sparkline/spark-js.js"></script>
+<!-- dashboard sales js-->
+<script src="~/assets/libs/js/dashboard-sales.js"></script>
+
+<div class="container-fluid  dashboard-content">
+    <!-- ============================================================== -->
+    <!-- pagehader  -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="page-header">
+                <h3 class="mb-2">Sales Dashboard </h3>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- pagehader  -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <!-- metric -->
+        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="text-muted">Order</h5>
+                    <div class="metric-value d-inline-block">
+                        <h1 class="mb-1 text-primary" id="NumberOfOrder">32,100 </h1>
+                    </div>
+                    <div class="metric-label d-inline-block float-right text-success" id="ColorOfOrder">
+                        <i class="fa fa-fw fa-caret-up" id="IconOfOrder"></i><span id="RateOfOrder">5.27%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /. metric -->
+        <!-- metric -->
+        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="text-muted">Revenue</h5>
+                    <div class="metric-value d-inline-block">
+                        <h1 class="mb-1 text-primary" id="numberOfRevenue">$5,656</h1>
+                    </div>
+                    <div class="metric-label d-inline-block float-right text-danger" id="ColorOfRevenue">
+                        <i class="fa fa-fw fa-caret-down" id="IconOfRevenue"></i><span id="RateOfRevenue">1.08%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /. metric -->
+        <!-- metric -->
+        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="text-muted">Printed Photos</h5>
+                    <div class="metric-value d-inline-block">
+                        <h1 class="mb-1 text-primary" id="numberOfPhotos">22</h1>
+                    </div>
+                    <div class="metric-label d-inline-block float-right text-success" id="ColorOfPhotos">
+                        <i class="fa fa-fw fa-caret-up" id="IconOfPhotos"></i><span id="rateOfPhotos">4.87%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /. metric -->
+        <!-- metric -->
+        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="text-muted" id="numberOfPO">Waiting Orders</h5>
+                    <div class="metric-value d-inline-block">
+                        <h1 class="mb-1 text-primary" id="numberOfWaitingOrders">0</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /. metric -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- revenue  -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <div class=" col-lg-12 col-sm-12 col-12">
+            <div class="card">
+                <h5 class="card-header">Hourly Productivity</h5>
+                <div class="card-body">
+                    <div id="lineChart"></div>
+                </div>
+                <div class="card-body border-top">
+                    <div class="row">
+                        <div class="offset-xl-1 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 p-3 pr-5 mr-5">
+                            <h4 style="font-size:0.9rem">Average Completed Orders / Hour:</h4>
+                            <p>
+                                Today's Peak Period: <span id="peakToday"></span>
+                            </p>
+                        </div>
+                        <div class="offset-xl-1 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 p-3 pl-5 ml-4">
+                            <h2 class="font-weight-normal mb-3"><span id="avgToday"></span></h2>
+                            <div class="mb-0 mt-3 legend-item">
+                                <span class="fa-xs mr-1 legend-title" style="color:#EB984E" ><i class="fa fa-fw fa-square-full"></i></span>
+                                <span class="legend-text">Today</span>
+                            </div>
+                        </div>
+                        <div class="offset-xl-1 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 p-3 pl-0 ml-0">
+                            <h2 class="font-weight-normal mb-3">
+                                <span id="avgYesterday"></span>
+                            </h2>
+                            <div class="text-muted mb-0 mt-3 legend-item"> 
+                            <span class="fa-xs mr-1 legend-title" style="color:#85C1E9">
+                                <i class="fa fa-fw fa-square-full"></i>
+                                </span>
+                            <span class="legend-text">Yesterday</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end reveune  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- total sale  -->
+        <!-- ============================================================== -->
+        
+        <!-- ============================================================== -->
+        <!-- end total sale  -->
+        <!-- ============================================================== -->
+    </div>
+    <div class="row">
+        <!-- ============================================================== -->
+        <!-- top selling products  -->
+        <!-- ============================================================== -->
+        <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card">
+                <h5 class="card-header">Newly Updated Orders</h5>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="bg-light">
+                                <tr class="border-0">
+                                    <th class="border-0">Order Number</th>
+                                    <th class="border-0">Products</th>
+                                    <th class="border-0">Photo Quantity</th>
+                                    <th class="border-0">Order Status</th>
+                                    <th class="border-0">Total Amount</th>
+                                    <th class="border-0">Updated Time</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTable">
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end top selling products  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- revenue locations  -->
+        <!-- ============================================================== -->
+        <div class="col-xl-4 col-lg-12 col-md-4 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-header" style="display:flex; padding-bottom:0; padding-right:0;">
+                    <h5>Top Selling Products</h5>
+
+                    <ul class="nav nav-pills" style="margin-left:18%;">
+                        <li class="nav-item" style="padding-right:0">
+                            <a class="nav-link active" style="font-size:0.8rem; padding: 5px 10px; cursor:pointer" id="todayPieBtn" onclick="drawPieChart()">Today</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="font-size:0.8rem;padding: 5px 10px; cursor:pointer" id="yestPieBtn" onclick="drawYesterdayPie()">Yesterday</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div id="donutchartForProductSales"></div>
+                    <div class="chart-widget-list" id="productLegend">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end revenue locations  -->
+        <!-- ============================================================== -->
+    </div>
+</div>
+<style>
+    .dot {
+        height: 8px;
+        width: 8px;
+        background-color: red;
+        border-radius: 100%;
+        display: inline-block;
+        margin-right: 6px;
+        margin-bottom: 4px;
+    }
+</style>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    var orderList = [];
+    var todayPie = true;
+    $(document).ready(function () {
+        $('#menuDashboard').addClass("active");
+        loadRealTimeData();
+        loadOrderDetailsTable();
+
+        setInterval(updateOrderDetailsTable, 30000);
+
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawPieChart);
+
+        google.charts.load('current', { packages: ['corechart', 'line'] });
+        google.charts.setOnLoadCallback(drawLineChart);
+    });
+
+    //AJAX Call to retrieve data from backend
+    function loadRealTimeData() {
+        $.ajax({
+            type: "GET",
+            url: "/api/dashboard/retrieveRealTimeData",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $('#NumberOfOrder').text(data.todayOrderNumber);
+                $('#numberOfRevenue').text(`$${data.todayRevenueNumber.toFixed(2)}`);
+                $('#numberOfPhotos').text(data.todayPhotoNumber);
+                $('#numberOfWaitingOrders').text(data.waitingOrders);
+                
+                var orderRate = data.rateOrder;
+                var revenueRate = data.rateRevenue.toFixed(4);
+                var photoRate = data.ratePhoto;
+
+                $('#RateOfOrder').text((orderRate * 100).toFixed(2) + "%");
+                if (orderRate < 0) {
+                    $('#IconOfOrder').removeClass('fa-caret-up');
+                    $('#IconOfOrder').addClass('fa-caret-down');
+                    $('#ColorOfOrder').removeClass('text-success');
+                    $('#ColorOfOrder').addClass('text-danger');
+                }
+                else {
+                    $('#IconOfOrder').addClass('fa-caret-up');
+                    $('#IconOfOrder').removeClass('fa-caret-down');
+                    $('#ColorOfOrder').addClass('text-success');
+                    $('#ColorOfOrder').removeClass('text-danger');
+                }
+
+                $('#RateOfRevenue').text((revenueRate * 100).toFixed(2)+ "%");
+                if (revenueRate < 0) {
+                    $('#IconOfRevenue').removeClass('fa-caret-up');
+                    $('#IconOfRevenue').addClass('fa-caret-down');
+                    $('#ColorOfRevenue').removeClass('text-success');
+                    $('#ColorOfRevenue').addClass('text-danger');
+                }
+                else {
+                    $('#IconOfRevenue').addClass('fa-caret-up');
+                    $('#IconOfRevenue').removeClass('fa-caret-down');
+                    $('#ColorOfRevenue').addClass('text-success');
+                    $('#ColorOfRevenue').removeClass('text-danger');
+                }
+
+                $('#rateOfPhotos').text((photoRate * 100).toFixed(2) + "%");
+                if (photoRate < 0) {
+                    $('#IconOfPhotos').removeClass('fa-caret-up');
+                    $('#IconOfPhotos').addClass('fa-caret-down');
+                    $('#ColorOfPhotos').removeClass('text-success');
+                    $('#ColorOfPhotos').addClass('text-danger');
+                }
+                else {
+                    $('#IconOfPhotos').addClass('fa-caret-up');
+                    $('#IconOfPhotos').removeClass('fa-caret-down');
+                    $('#ColorOfPhotos').addClass('text-success');
+                    $('#ColorOfPhotos').removeClass('text-danger');
+                }
+            },
+            error: function (data) {
+                console.log("Error");
+                console.log(data);
+            }
+        });
+    }
+
+    function loadOrderDetailsTable() {
+        $('#ordersTable').html("");
+        $.ajax({
+            type: "GET",
+            url: "/api/dashboard/retriveNewlyUpdatedOrders",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                if (data == "No Order has been found") {
+                    $('#ordersTable').append($(`<tr><td colspan="6">There is no order found in database.</td></tr>`));
+                }
+                else {
+                    for (var i = 0; i < data.length; i++) {
+                        orderList.push(data[i].OrderCode);
+                        var $orderRow = $(`<tr>
+                                    <td>${data[i].OrderCode}</td>
+                                    <td>${data[i].Products}</td>
+                                    <td>${data[i].NumberOfPhotos}</td>
+                                    <td>${data[i].OrderStatus}</td>
+                                    <td>$${data[i].TotalAmount.toFixed(2)}</td>
+                                    <td>${data[i].UpdatedTime}</td>
+                                </tr>`);
+                        $('#ordersTable').append($orderRow);
+                    }
+                }
+                
+                var today = new Date();
+                var hr = today.getHours();
+                var min = today.getMinutes();
+                var sec = today.getSeconds();
+                if (hr < 10) {
+                    hr = '0' + today.getHours();
+                }
+                if (min < 10) {
+                    min = '0' + today.getMinutes();
+                }
+                if (sec < 10) {
+                    sec = '0' + today.getSeconds();
+                }
+                var time = hr + ":" + min + ":" + sec + " ";
+
+                var $refreshrRow = $(`<tr><td colspan="6"><p class="float-right"> Last Update at:<span id="orderTableUpdatedAt"> ${time} </span><a onclick="updateOrderDetailsTable()" class="btn btn-outline-light">Refresh</a></p></td></tr>`);
+                $('#ordersTable').append($refreshrRow);
+                
+            },
+            error: function (data) {
+                console.log("Error");
+                console.log(data);
+            }
+        });
+    }
+
+    function updateOrderDetailsTable() {
+        $.ajax({
+            type: "GET",
+            url: "/api/dashboard/retriveNewlyUpdatedOrders",
+            dataType: "json",
+            success: function (data) {
+                $('.dot').remove();
+                console.log(data);
+                var dataUpdate = false;
+                for (var i = 0; i < data.length; i++) {
+                    var exist = false;
+                    for (var n = 0; n < orderList.length; n++) {
+                        if (orderList[n] == data[i].OrderCode) {
+                            exist = true;
+                        }
+                    }
+                    if (!exist) {
+                        dataUpdate = true;
+                        console.log("New Row" + data[i].OrderCode);
+                        var $orderRow = $(`<tr>
+                                    <td><span class="dot"></span>${data[i].OrderCode}</td>
+                                    <td>${data[i].Products}</td>
+                                    <td>${data[i].NumberOfPhotos}</td>
+                                    <td>${data[i].OrderStatus}</td>
+                                    <td>$${data[i].TotalAmount.toFixed(2)}</td>
+                                    <td>${data[i].UpdatedTime}</td>
+                                </tr>`);
+                        orderList.splice(orderList.length - 1, 1);
+                        orderList.push(data[i].OrderCode);
+                        $orderRow.hide();
+                        $('#ordersTable tr:first').before($orderRow);
+                        $orderRow.fadeIn("slow");
+                        $('#ordersTable tr:last').prev().fadeOut('slow', function () {
+                            $('#ordersTable tr:last').prev().remove();
+                        });
+                    }
+                }
+                if (dataUpdate) {
+                    loadRealTimeData();
+                    drawLineChart();
+                    if (todayPie) {
+                        drawPieChart();
+                    }
+                    else {
+                        drawYesterdayPie();
+                    }
+                }
+                var today = new Date();
+                var hr = today.getHours();
+                var min = today.getMinutes();
+                var sec = today.getSeconds();
+                if (hr < 10) {
+                    hr = '0' + today.getHours();
+                }
+                if (min < 10) {
+                    min = '0' + today.getMinutes();
+                }
+                if (sec < 10) {
+                    sec = '0' + today.getSeconds();
+                }
+                var time = hr + ":" + min + ":" + sec + " ";
+                $('#orderTableUpdatedAt').text(time);
+
+            },
+            error: function (data) {
+                console.log("Error");
+                console.log(data);
+            }
+        });
+    }
+
+    function drawPieChart() {
+        todayPie = true;
+        $('#donutchartForProductSales').html("");
+        $('#yestPieBtn').removeClass("active");
+        $('#todayPieBtn').addClass("active");
+        $('#productLegend').html("");
+        $.ajax({
+            type: "GET",
+            url: "/api/dashboard/retrivePieChartData",
+            dataType: "json",
+            success: function (data) {
+                var total = 0;
+                for (var i = 0; i < data.length; i++) {
+                    total += data[i].amount;
+                }
+                if (total != 0) {
+                    loadPieChart(data);
+                }
+                else {
+                    console.log("Today's not available");
+                    var $NAp = $(`<p>Today's Top Selling Product Chart is Not Available now!</p><p>There is no order placed yet!</p>`);
+                    $('#donutchartForProductSales').append($NAp);
+                }
+            },
+            error: function (data) {
+                console.log("Error");
+                console.log(data);
+            }
+        });
+    }
+
+    function drawYesterdayPie() {
+        todayPie = false;
+        $('#donutchartForProductSales').html("");
+        $('#todayPieBtn').removeClass("active");
+        $('#yestPieBtn').addClass("active");
+        $('#productLegend').html("");
+        $.ajax({
+            type: "GET",
+            url: "/api/dashboard/retriveYesterdayPieChartData",
+            dataType: "json",
+            success: function (data) {
+                var total = 0;
+                for (var i = 0; i < data.length; i++) {
+                    total += data[i].amount;
+                }
+                if (total != 0) {
+                    loadPieChart(data);
+                }
+                else {
+                    console.log("Yesterday's not available");
+                    var $NAp = $(`<p>Yesterday's Top Selling Product Chart is Not Available now!</p><p>There was no order placed for yesterday!</p>`);
+                    $('#donutchartForProductSales').append($NAp);
+                }
+            },
+            error: function (data) {
+                console.log("Error");
+                console.log(data);
+            }
+        });
+    }
+
+    function loadPieChart(pieData) {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Sales Product');
+        data.addColumn('number', 'Product Revenue');
+        var dataRows = [];
+        var listOfColors = ['#EF9191', '#9791EF', '#ECEF91', '#91EF98', '#91ADEF', '#839573', '#41C6BF'];
+        var pieColors = [];
+        for (i = 0; i < pieData.length; i++) {
+            dataRows.push([pieData[i].product_name, { v: pieData[i].amount, f: `$${pieData[i].amount.toFixed(2)}` }]);
+            var $proLegend = $(`<p><span class="fa-xs mr-1 legend-title" style="color: ${listOfColors[i]}"><i class="fa fa-fw fa-square-full"></i></span><span class="legend-text">${pieData[i].product_name}</span><span class="float-right">$${pieData[i].amount.toFixed(2)}</span></p>`)
+            $('#productLegend').append($proLegend);
+            pieColors.push(listOfColors[i]);
+        }
+        data.addRows(dataRows);
+        console.log(data);
+
+        var options = {
+            pieSliceText: 'none',
+            pieHole: 0.5,
+            legend: 'none',
+            chartArea: {
+                left: "3%",
+                top: "3%",
+                height: "94%",
+                width: "94%"
+            },
+            colors: pieColors
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('donutchartForProductSales'));
+        chart.draw(data, options);
+    }
+
+    function drawLineChart() {
+        $.ajax({
+            type: "GET",
+            url: "/api/dashboard/retriveLineChartData",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var sumYest = 0;
+                for (var i = 0; i < data.length; i++) {
+                    sumYest += data[i].yesterdayNumberOfOrders;
+                }
+                var averageYest = sumYest / data.length;
+                $('#avgYesterday').text(averageYest);
+
+                if (data[0].todayNumberOfOrders == -1) {
+                    $('#avgToday').text("N.A.");
+                    $('#peakToday').text("N.A.");
+                    loadYesterdayLineChart(data);
+                } else {
+                    var sumToday = 0;
+                    var peakNumberOfOrders = 0;
+                    var peakPeriod = "";
+                    for (var i = 0; i < data.length; i++) {
+                        sumToday += data[i].todayNumberOfOrders;
+                        if (data[i].todayNumberOfOrders > peakNumberOfOrders || data[i].todayNumberOfOrders!=0) {
+                            peakNumberOfOrders = data[i].todayNumberOfOrders;
+                            peakPeriod = data[i].TimeSpan;
+                        }
+                        else if (data[i].todayNumberOfOrders == peakNumberOfOrders || data[i].todayNumberOfOrders != 0) {
+                            peakPeriod += ", " + data[i].TimeSpan;
+                        }
+                    }
+                    var averageToday = sumToday / data.length;
+                    $('#avgToday').text(averageToday);
+                    $('#peakToday').text(peakPeriod);
+                    loadLineChart(data);
+                }
+            },
+            error: function (data) {
+                console.log("Error");
+                console.log(data);
+            }
+        });
+        
+    }
+
+    function loadLineChart(chartData) {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Time Span');
+        data.addColumn('number', 'Number Of Yesterday Orders');
+        data.addColumn('number', 'Number Of Today Orders');
+        data.addColumn('number', 'Number Of Today Orders');
+        var dataRows = [];
+        
+        for (i = 0; i < chartData.length; i++) {
+            dataRows.push([chartData[i].TimeSpan, chartData[i].yesterdayNumberOfOrders, chartData[i].todayNumberOfOrders, chartData[i].todayNumberOfOrders]);
+        }
+        data.addRows(dataRows);
+
+        var options = {
+            vAxis: { title: 'Number of Orders Completed' },
+            hAxis: { title: 'Time' },
+            seriesType: 'bars',
+            legend: 'none',
+            series: { 2: { type: 'line' } },
+            colors: ['#85C1E9', '#EB984E', '#C0392B']
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById('lineChart'));
+        chart.draw(data, options);
+    }
+    
+    function loadYesterdayLineChart(chartData) {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Time Span');
+        data.addColumn('number', 'Number Of Yesterday Orders');
+        data.addColumn('number', 'Number Of Yesterday Orders');
+        var dataRows = [];
+
+        for (i = 0; i < chartData.length; i++) {
+            dataRows.push([chartData[i].TimeSpan, chartData[i].yesterdayNumberOfOrders, chartData[i].yesterdayNumberOfOrders]);
+        }
+        data.addRows(dataRows);
+
+        var options = {
+            vAxis: { title: 'Number of Orders Completed' },
+            hAxis: { title: 'Time' },
+            seriesType: 'bars',
+            legend: 'none',
+            series: { 1: { type: 'line' } }
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById('lineChart'));
+        chart.draw(data, options);
+
+    }
+
+</script>

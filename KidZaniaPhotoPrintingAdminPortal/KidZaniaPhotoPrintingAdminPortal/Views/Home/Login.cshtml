@@ -1,0 +1,121 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="~/Content/bootstrap-4.5.0-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/libs/css/Login-Register/css/style.css" rel="stylesheet" />
+    <link href="~/assets/libs/css/Login-Register/fonts/material-icon/css/material-design-iconic-font.min.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="main">
+
+        <!-- Sign in  Form -->
+        <section class="sign-in">
+            <div class="container">
+                <div class="signin-content" style="padding-bottom: 51px;">
+                    <div class="signin-image">
+                        <img src="~/assets/images/kidzania.png" width="200" height="30" style="margin-left: 50px;" alt="sign in image">
+                        <figure><img src="~/assets/images/cartoon1.png" alt="sign in image"></figure>
+                    </div>
+
+                    <div class="signin-form">
+                        <h2 class="form-title">Login</h2>
+                        <form method="POST" class="register-form" id="login-form">
+                            <div class="form-group">
+                                <label for="txtUsername"><i class="zmdi zmdi-email"></i></label>
+                                <input type="text" name="txtUsername" id="txtUsername" placeholder="Your Email"  style="background-color: transparent !important" />
+                            </div>
+                            <div class="form-group">
+                                <label for="txtPassword"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="txtPassword" id="txtPassword" placeholder="Password" style="background-color: transparent !important"/>
+                            </div>
+
+                            <div class="form-group form-button">
+                                <input type="button" name="btnLogin" id="btnLogin" class="form-submit" value="Log in" />
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <div id="divError" class="alert alert-danger collapse">
+
+
+            <a id="linkClose" href="#" class="close">&times;</a>
+            <div id="divErrorText"></div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#linkClose').click(function () {
+                $('#divError').hide('fade');
+            });
+
+            $('#btnLogin').click(function () {
+                let username = $('#txtUsername').val();
+                let password = $('#txtPassword').val();
+                $.ajax({
+                    // Post username, password & the grant type to /token
+                    url: '/token',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: {
+                        username: username,
+                        password: password,
+                        grant_type: 'password'
+                    },
+                    // When the request completes successfully, save the
+                    // access token in the browser session storage and
+                    // redirect the user to Data.html page. We do not have
+                    // this page yet. So please add it to the
+                    // EmployeeService project before running it
+                    success: function (response) {
+                        sessionStorage.setItem("accessToken", response.access_token);
+                        $.ajax({
+                            url: `/api/account/login?inUserName=${username}&inPassword=${password}`,
+                            method: 'POST',
+                            content: 'json',
+                            success: function (data) {
+                                sessionStorage.setItem("staff", JSON.stringify(data));
+                                console.log(data.role);
+                                if (data.role == "Admin" || data.role == "Marketing") {
+                                    window.location.replace("/Marketing/Dashboard");
+                                } else if (data.role == "Hardcopy") {
+                                    window.location.replace("/PrintingManagement/Hardcopy");
+                                } else if (data.role == "Keychain & Magnet") {
+                                    window.location.replace("/PrintingManagement/Others");
+                                } else {
+                                    window.location.replace("/Error/Unauthorized");
+                                }
+                            },
+                            error: function (jqXHR) {
+                                $('#divErrorText').text(jqXHR.responseText);
+                                $('#divError').show('fade');
+                            }
+                        });
+                    },
+                    // Display errors if any in the Bootstrap alert <div>
+                    error: function (jqXHR) {
+                        $('#divErrorText').text(jqXHR.responseText);
+                        $('#divError').show('fade');
+                    }
+                });
+            });
+        });
+    </script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
+
+
